@@ -5,22 +5,25 @@ import { useAuthContext } from "../context/AuthProvider";
 import avatar from "../assets/icons/avatar.png";
 import { Link } from "react-router-dom";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function Navbar() {
   const { currentUser, logOut } = useAuthContext();
   return (
     <>
-    <Disclosure as="nav" className="dark:bg-gray-800 bg-neutral-200">
+      <Disclosure
+        as="nav"
+        className="bg-neutral-100 dark:bg-gray-900 py-3 dark:text-white fixed w-full top-0 z-20"
+      >
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="flex flex-shrink-0 items-center">
-              <p className="dark:text-white text-dark">Movies</p>
+              <a className="dark:text-white text-dark" href="/">
+                Movies
+              </a>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <p className="capitalize me-2 dark:text-white">{currentUser?.displayName}</p>
+              <p className="capitalize me-2 dark:text-white">
+                {currentUser?.displayName}
+              </p>
               <Switch />
               <Menu as="div" className="relative ml-3">
                 <div>
@@ -46,42 +49,35 @@ export default function Navbar() {
                   <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     {!currentUser && (
                       <>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            to={"/register"}
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Register
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                          to={"/login"}
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Log In
-                          </Link>
-                        )}
-                      </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              to={"/register"}
+                              className="active:bg-gray-100                               block px-4 py-2 text-sm text-gray-700"
+                            >
+                              Register
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              to={"/login"}
+                              className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700"
+                            >
+                              Log In
+                            </Link>
+                          )}
+                        </Menu.Item>
                       </>
                     )}
                     {currentUser && (
                       <Menu.Item>
                         {({ active }) => (
-                          <p onClick={logOut}
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
+                          <p
+                            onClick={logOut}
+                            className="
+                              active:bg-gray-100 block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                           >
                             Log out
                           </p>
@@ -94,8 +90,8 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-    </Disclosure>
-    <div className="h-[2.5rem] dark:bg-gray-dark-main"></div>
+      </Disclosure>
+      <div className="h-[3.5rem] dark:bg-gray-dark-main mt-10"></div>
     </>
   );
 }
