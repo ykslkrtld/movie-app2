@@ -11,7 +11,11 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { toastErrorNotify, toastSuccessNotify, toastWarnNotify } from "../helpers/ToastNotify";
+import {
+  toastErrorNotify,
+  toastSuccessNotify,
+  toastWarnNotify,
+} from "../helpers/ToastNotify";
 
 const AuthContext = createContext();
 
@@ -24,6 +28,9 @@ const AuthProvider = ({ children }) => {
   const [currentUser, setcurrentUser] = useState(
     JSON.parse(sessionStorage.getItem("currentUser")) || false
   );
+
+  const [yuksel, setYuksel] = useState("");
+  const [mustafa, setMustafa] = useState("");
 
   useEffect(() => {
     userObserver();
@@ -48,7 +55,13 @@ const AuthProvider = ({ children }) => {
   const signIn = (email, password) => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        navigate("/");
+        if(yuksel){
+          navigate("/series/details/" + yuksel)
+        } else if(mustafa){
+          navigate("/details/" + mustafa)
+        } else {
+          navigate("/");
+        }
         toastSuccessNotify("Logged in successfully");
       })
       .catch((error) => {
@@ -59,6 +72,8 @@ const AuthProvider = ({ children }) => {
   const logOut = () => {
     signOut(auth)
       .then(() => {
+        setMustafa("")
+        setYuksel("")
         toastSuccessNotify("Logged out successfully");
       })
       .catch((error) => {
@@ -69,13 +84,16 @@ const AuthProvider = ({ children }) => {
   const userObserver = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const {email, displayName, photoURL} = user
-        setcurrentUser({email, displayName, photoURL})
-        sessionStorage.setItem("currentUser", JSON.stringify({email, displayName, photoURL}))
+        const { email, displayName, photoURL } = user;
+        setcurrentUser({ email, displayName, photoURL });
+        sessionStorage.setItem(
+          "currentUser",
+          JSON.stringify({ email, displayName, photoURL })
+        );
       } else {
         // User is signed out
-        setcurrentUser(false)
-        sessionStorage.removeItem("currentUser")
+        setcurrentUser(false);
+        sessionStorage.removeItem("currentUser");
       }
     });
   };
@@ -84,7 +102,13 @@ const AuthProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then(() => {
-        navigate("/");
+        if(yuksel){
+          navigate("/series/details/" + yuksel)
+        } else if(mustafa){
+          navigate("/details/" + mustafa)
+        } else {
+          navigate("/");
+        }
         toastSuccessNotify("Logged in successfully");
       })
       .catch((error) => {
@@ -95,7 +119,7 @@ const AuthProvider = ({ children }) => {
   const forgotPassword = (email) => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
-      toastWarnNotify("Please check your mail box!");
+        toastWarnNotify("Please check your mail box!");
       })
       .catch((error) => {
         toastErrorNotify(error.message);
@@ -109,6 +133,8 @@ const AuthProvider = ({ children }) => {
     googleProvider,
     logOut,
     currentUser,
+    setYuksel,
+    setMustafa,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import Switch from "./Switch";
 import { useAuthContext } from "../context/AuthProvider";
 import avatar from "../assets/icons/avatar.png";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 export default function Navbar() {
   const { currentUser, logOut } = useAuthContext();
@@ -19,6 +19,10 @@ export default function Navbar() {
               <a className="dark:text-white text-dark" href="/">
                 Movies
               </a>
+            </div>
+            <div>
+              <NavLink className="mr-8" to={"/"}>Movies</NavLink>
+              <NavLink to={"/series"}>Series</NavLink>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <p className="capitalize me-2 dark:text-white">

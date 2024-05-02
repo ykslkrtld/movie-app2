@@ -3,47 +3,47 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import VideoSection from "../components/VideoSection";
 
-const MovieDetail = () => {
+const SerieDetail = () => {
   const { id } = useParams();
-  const [movieDetail, setMovieDetail] = useState({});
+  const [serieDetail, setSerieDetail] = useState({});
   const [videoKey, setVideoKey] = useState("");
 
   const {
-    title,
+    name,
     poster_path,
     overview,
     vote_average,
-    release_date,
+    first_air_date,
     vote_count,
-  } = movieDetail;
+  } = serieDetail;
 
   const API_KEY = process.env.REACT_APP_TMDB_KEY;
-  const movieDetailBaseUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`;
+  const serieDetailBaseUrl = `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`;
   const baseImageUrl = "https://image.tmdb.org/t/p/w1280";
   const defaultImage =
     "https://images.unsplash.com/photo-1581905764498-f1b60bae941a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80";
-  const videoUrl = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}`;
+  const videoUrl = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${API_KEY}`;
 
 
-  const getMovieDetail = async () => {
+  const getSerieDetail = async () => {
     try {
-      const res = await axios(movieDetailBaseUrl)
-      setMovieDetail(res.data)
+      const res = await axios(serieDetailBaseUrl)
+      setSerieDetail(res.data)
     } catch (error) {
       console.log(error)
     }
   }
   useEffect(() => {
-    getMovieDetail()
+    getSerieDetail()
     axios
       .get(videoUrl)
       .then((res) => setVideoKey(res.data.results[0].key))
       .catch((err) => console.log(err));
-  }, [movieDetailBaseUrl, videoUrl]);
+  }, [serieDetailBaseUrl, videoUrl]);
 
   return (
     <div className="md:container px-10 mx-auto py-5">
-      <h1 className="text-center dark:text-white text-3xl">{title}</h1>
+      <h1 className="text-center dark:text-white text-3xl">{name}</h1>
       {videoKey && <VideoSection videoKey={videoKey} />}
       <div className="md:container flex justify-center px-10">
         <div className="flex flex-col lg:flex-row max-w-6xl rounded-lg bg-gray-100 dark:bg-gray-dark-second shadow-lg">
@@ -63,7 +63,7 @@ const MovieDetail = () => {
             </div>
             <ul className="rounded-lg border border-gray-400 text-gray-900 dark:text-gray-300">
               <li className="px-6 py-2 border-b border-gray-400 w-full rounded-t-lg">
-                {"Release Date : " + release_date}
+                {"Release Date : " + first_air_date}
               </li>
               <li className="px-6 py-2 border-b border-gray-400 w-full">
                 {"Rate : " + vote_average}
@@ -73,7 +73,7 @@ const MovieDetail = () => {
               </li>
               <li className="px-6 py-2 border-gray-400 w-full rounded-t-lg">
                 <Link
-                  to={"/"}
+                  to={"/series"}
                   className="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4"
                 >
                   Go Back
@@ -87,4 +87,4 @@ const MovieDetail = () => {
   );
 };
 
-export default MovieDetail;
+export default SerieDetail;
