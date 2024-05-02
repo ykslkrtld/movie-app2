@@ -69,7 +69,7 @@ export default function Navbar() {
                               to={"/login"}
                               className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700"
                             >
-                              Log In
+                              Sign In
                             </Link>
                           )}
                         </Menu.Item>
@@ -83,7 +83,7 @@ export default function Navbar() {
                             className="
                               active:bg-gray-100 block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                           >
-                            Log out
+                            Sign out
                           </p>
                         )}
                       </Menu.Item>
