@@ -128,7 +128,6 @@ body {
 
 .active{
   color: red;
-  text-decoration: underline;
   font-size: 1.2rem;
 }
 
