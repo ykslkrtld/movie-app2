@@ -49,7 +49,7 @@ const Series = () => {
     <input
       type="search"
       className="w-80 h-8 rounded-md p-1 m-2"
-      placeholder="Search a movie..."
+      placeholder="Search a serie..."
       onChange={(e) => setSearchTerm(e.target.value)}
       value={searchTerm}
     />

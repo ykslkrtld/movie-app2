@@ -40,10 +40,10 @@ const MovieCard = ({ title, poster_path, overview, vote_average, id }) => {
             {vote_average.toFixed(1)}
           </span>
       </div>
-      <div className="movie-over">
+      {/* <div className="movie-over">
         <h2>Overview</h2>
         <p>{overview}</p>
-      </div>
+      </div> */}
     </div>
   );
 };
